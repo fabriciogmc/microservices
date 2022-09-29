@@ -1,0 +1,71 @@
+<html>
+<head>
+    <script src='static/jquery.min.js'></script>
+    <script>
+	window.onload = function(){
+		bot = document.getElementById('bot');
+		bot_g = document.getElementById('bot_g');
+		input = document.getElementById('in');
+		output = document.getElementById('out');
+		output_2 = document.getElementById('name_bd');
+		output_3 = document.getElementById('id_bd');
+		bot.onclick = function(){
+		    //read input:
+		    str_in = input.value;
+			$.ajax({
+			    url: 'http://localhost:5002/api_gateway/lower_case?str_input='+str_in,
+			    dataType: 'json',
+			    crossOrigin: true,
+			    success: function(data){
+			        res_1 = data.lowercase_str;
+			        cripto_ajax(data.lowercase_str);
+			   }
+			}); //Ajax
+		} //button cripto click
+
+		bot_g.onclick = function(){
+			str_cripto = output.value;
+			persistence_ajax(str_cripto);
+		}// button gravar click
+
+		function cripto_ajax(str_data){
+		    $.ajax({
+			  url: 'http://localhost:5002/api_gateway/cripto?str_input='+str_data,
+			  dataType: 'json',
+			  crossOrigin: true,
+			  success: function(data){
+			        res_1 = data.cripto_str;
+			        output.value = res_1;
+			  }
+			});
+		} //cripto ajax
+
+		function persistence_ajax(str_data){
+		    $.ajax({
+			  url: 'http://localhost:5002/api_gateway/persistence?str_input='+str_data,
+			  dataType: 'json',
+			  crossOrigin: true,
+			  success: function(data){
+			        output_2.value = data.nome;
+			        output_3.value = data.id;
+			  }
+			});
+		} //persistence ajax
+
+
+	}//onload
+
+    </script>
+</head>
+<body>
+<form>
+    String de entrada <input id=in name="str_input"/><br/>
+    String criptografada <input id="out" name="user_name"/><br/>
+	Usuário no banco <input id="name_bd" name="user_name_bd"/><br/>
+	Id do usuário <input id="id_bd" name="user_id_bd"/><br/>
+	
+    <button type="button" id="bot">Criptografar</button>
+	<button type="button" id="bot_g">Gravar</button>
+</form>
+</body>
+</html>

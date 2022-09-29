@@ -1,0 +1,7 @@
+.idea/
+env/
+build/
+node_packages/
+.gradle/
+*.jar
+*.pyc
